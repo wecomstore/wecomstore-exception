@@ -10,8 +10,7 @@
 
 namespace wecomstore;
 
-class ApiOutput
-{
+class ApiOutput {
     /**
      * 输出格式
      * @var string
@@ -31,8 +30,7 @@ class ApiOutput
      * @param $code
      * @return \think\response\Json
      */
-    public static function outJson($result, $code)
-    {
+    public static function outJson($result, $code) {
         return json($result, $code, self::$header);
     }
 
@@ -41,8 +39,7 @@ class ApiOutput
      * @param $code
      * @return \think\response\Xml
      */
-    public static function outXml($result, $code)
-    {
+    public static function outXml($result, $code) {
         return xml($result, $code, self::$header, ['root_node' => 'wecomstore']);
     }
 
@@ -51,8 +48,7 @@ class ApiOutput
      * @param $code
      * @return \think\response\Jsonp
      */
-    public static function outJsonp($result, $code)
-    {
+    public static function outJsonp($result, $code) {
         return jsonp($result, $code, self::$header);
     }
 
@@ -61,8 +57,7 @@ class ApiOutput
      * @param $code
      * @return \think\response\View
      */
-    public static function outView($result, $code)
-    {
+    public static function outView($result, $code) {
         header(self::$headerKey . ': ' . self::$header[self::$headerKey]);
         return view('common@/WecomStore', ['data' => $result], $code);
     }
@@ -72,8 +67,7 @@ class ApiOutput
      * @param $code
      * @return Response
      */
-    public static function outResponse($result, $code)
-    {
+    public static function outResponse($result, $code) {
         if ($result instanceof \think\Response) {
             $header = array_merge($result->getHeader(), self::$header);
             return $result->code($code)->header($header);
@@ -91,19 +85,18 @@ class ApiOutput
      * @param string $message 提示内容
      * @return mixed
      */
-    public static function outPut($data = [], $code = 200, $error = false, $message = '')
-    {
+    public static function outPut($data = [], $code = 200, $error = false, $message = '') {
         // 区分返回数据类型
         if (isset($data['callback_return_type']) && array_key_exists('is_callback', $data)) {
             // 自定义回调接口返回
             self::$format = $data['callback_return_type'];
-            $result = $data['is_callback'];
+            $result       = $data['is_callback'];
         } else {
             // 返回结构确定
             $result = [
                 'status'  => $code,
                 'message' => $error == true ? empty($message) ? '发生未知异常' : $message : 'success',
-                'data' => config('app.empty_result'),
+                'data'    => config('app.empty_result'),
             ];
 
             if (!$error) {
@@ -115,8 +108,8 @@ class ApiOutput
         }
 
         // 按请求格式返回
-        self::$headerKey = base64_decode('WC1Qb3dlcmVkLUJ5');
-        self::$headerValue = base64_decode('V2Vjb21TdG9yZQ==');
+        self::$headerKey                = base64_decode('WC1Qb3dlcmVkLUJ5');
+        self::$headerValue              = base64_decode('V2Vjb21TdG9yZQ==');
         self::$header[self::$headerKey] = self::$headerValue . '/' . get_version();
 
         switch (self::$format) {
