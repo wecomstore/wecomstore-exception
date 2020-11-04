@@ -116,7 +116,7 @@ class ApiOutput
 
         // 按请求格式返回
         self::$headerKey = base64_decode('WC1Qb3dlcmVkLUJ5');
-        self::$headerValue = base64_decode('Q2FyZXlTaG9w');
+        self::$headerValue = base64_decode('V2Vjb21TdG9yZQ==');
         self::$header[self::$headerKey] = self::$headerValue . '/' . get_version();
 
         switch (self::$format) {
