@@ -59,7 +59,9 @@ class ApiOutput {
      */
     public static function outView($result, $code) {
         header(self::$headerKey . ': ' . self::$header[self::$headerKey]);
-        return view('common@/WecomStore', ['data' => $result], $code);
+        $template = __DIR__ . '/template/WecomStore.tpl';
+
+        return view($template, ['data' => $result], $code);
     }
 
     /**
@@ -126,8 +128,10 @@ class ApiOutput {
                 return self::outXml($result, $code);
 
             case 'json':
-            default:
                 return self::outJson($result, $code);
+
+            default:
+                return $result;
         }
     }
 }
